@@ -1,5 +1,6 @@
 package com.cheam.spongeplus;
 
+import com.cheam.spongeplus.config.ConfigManager;
 import net.fabricmc.api.ModInitializer;
 
 import net.minecraft.util.Identifier;
@@ -22,8 +23,11 @@ public class SpongePlus implements ModInitializer {
         LOGGER.info(" Welcome to Sponge+ Development");
         LOGGER.info("=================================");
 
-        LOGGER.info("Initializing Sponge+!");
+        LOGGER.info("Loading configuration...");
+        ConfigManager.load();
+        LOGGER.info("Configuration loaded successfully.");
 
+        LOGGER.info("Registering commands...");
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             SpongeCommand.register(dispatcher);
         });

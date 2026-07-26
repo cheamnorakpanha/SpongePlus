@@ -3,7 +3,7 @@
 	"id": "sponge-plus",
 	"version": "${version}",
 	"name": "Sponge+",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Enhances the vanilla sponge with configurable absorption radius and optional lava absorption while preserving vanilla gameplay.",
 	"authors": [
 		"Me!"
 	],
