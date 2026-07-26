@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 public class SpongeService {
 
     private static final Direction[] DIRECTIONS = Direction.values();
-    private static final int MAX_VISITED_BLOCKS = 65;
+    private static final int MAX_VISITED_BLOCKS = 64;
 
     public static boolean absorb(World world, BlockPos pos) {
 
@@ -38,7 +38,12 @@ public class SpongeService {
                     FluidState fluidState = world.getFluidState(currentPos);
 
                     // Accept both water and lava
-                    boolean supportedFluid = fluidState.isIn(FluidTags.WATER) || fluidState.isIn(FluidTags.LAVA);
+            boolean supportedFluid =
+                    fluidState.isIn(FluidTags.WATER)
+                            || (
+                            SpongeConfig.shouldAbsorbLava()
+                                    && fluidState.isIn(FluidTags.LAVA)
+                    );
 
                     if (!supportedFluid) {
                         return BlockPos.IterationState.SKIP;
