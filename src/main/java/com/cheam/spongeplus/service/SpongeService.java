@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 public class SpongeService {
 
     private static final Direction[] DIRECTIONS = Direction.values();
-    private static final int MAX_VISITED_BLOCKS = 64;
+    private static final int MAX_VISITED_BLOCKS = 100000;
 
     public static boolean absorb(World world, BlockPos pos) {
 
