@@ -1,6 +1,7 @@
 package com.cheam.spongeplus.service;
 
 import com.cheam.spongeplus.SpongePlus;
+import com.cheam.spongeplus.config.SpongeConfig;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
@@ -13,12 +14,13 @@ import net.minecraft.world.World;
 public class SpongeService {
 
     private static final Direction[] DIRECTIONS = Direction.values();
+    private static final int MAX_VISITED_BLOCKS = 65;
 
     public static boolean absorb(World world, BlockPos pos) {
 
         SpongePlus.LOGGER.info("SpongeService.absorb() called");
 
-        return BlockPos.iterateRecursively(pos, 6, 65, (currentPos, queuer) -> {
+        return BlockPos.iterateRecursively(pos, SpongeConfig.getRadius(), MAX_VISITED_BLOCKS, (currentPos, queuer) -> {
 
                     // Add all six neighboring blocks to the BFS queue
                     for (Direction direction : DIRECTIONS) {
@@ -35,8 +37,10 @@ public class SpongeService {
                     BlockState blockState = world.getBlockState(currentPos);
                     FluidState fluidState = world.getFluidState(currentPos);
 
-                    // Ignore anything that isn't water
-                    if (!fluidState.isIn(FluidTags.WATER)) {
+                    // Accept both water and lava
+                    boolean supportedFluid = fluidState.isIn(FluidTags.WATER) || fluidState.isIn(FluidTags.LAVA);
+
+                    if (!supportedFluid) {
                         return BlockPos.IterationState.SKIP;
                     }
 
